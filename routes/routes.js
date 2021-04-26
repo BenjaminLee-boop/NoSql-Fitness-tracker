@@ -2,7 +2,7 @@ const router = require('express').Router();
 const path = require('path');
 const { Workout } = require('../models/index')
 
-router.get('/', async (req, res) => {
+router.get('/', async (_req, res) => {
     try {
         res.sendFile(path.join(__dirname, '../public/index.html'))
     } catch (err) {
@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.get('/exercise', async (req, res) => {
+router.get('/exercise', async (_req, res) => {
     try {
         res.sendFile(path.join(__dirname, '../public/exercise.html'))
     } catch (err) {
@@ -18,7 +18,7 @@ router.get('/exercise', async (req, res) => {
     }
 })
 
-router.get('/stats', async (req, res) => {
+router.get('/stats', async (_req, res) => {
     try {
         res.sendFile(path.join(__dirname, '../public/stats.html'))
     } catch (err) {
@@ -26,7 +26,7 @@ router.get('/stats', async (req, res) => {
     }
 })
 
-router.get('/api/workouts', (req, res) => {
+router.get('/api/workouts', (_req, res) => {
     Workout.aggregate([
         {
             $limit: 1
@@ -62,7 +62,7 @@ router.put('/api/workouts/:id', (req, res) => {
     Workout.findById(req.params.id)
         .then(workout => {
             workout.exercises.push(req.body)
-            Workout.updateOne({ _id: req.params.id }, workout, (err, result) => {
+            Workout.updateOne({ _id: req.params.id }, workout, (_err, _result) => {
                 res.json(workout)
             })
         })
@@ -71,7 +71,7 @@ router.put('/api/workouts/:id', (req, res) => {
         })
 })
 
-router.get('/api/workouts/range', (req, res) => {
+router.get('/api/workouts/range', (_req, res) => {
     Workout
         .find({})
         .sort({ _id: -1 })
